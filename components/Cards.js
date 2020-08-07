@@ -20,3 +20,42 @@
 // Add a listener for click events so that when a user clicks on a card, the headline of the article is logged to the console.
 //
 // Use your function to create a card for each of the articles, and append each card to the DOM.
+
+//supposed to make cards appear/disappear based on topic?
+function makeCard(article, topic) {
+  const element = document.createElement('div');
+  element.className = `card ${topic}`;
+  element.innerHTML = `<div class="headline">${article.headline}</div>
+   <div class="author">
+     <div class="img-container">
+       <img src=${article.authorPhoto} />
+     </div>
+     <span>By ${article.authorName}</span>
+   </div>`;
+   //now create a listener
+   element.addEventListener('click', event => {
+     console.log(element.querySelector('.headline').textContent);
+   })
+   //and finally return the whole thing!
+   return document.querySelector('.cards-container').appendChild(element);
+}
+
+//keep in mind, the structure is {articles: {topics: [arrOfArticleObjs]} }
+//that is SUPER annoying.
+axios.get('https://lambda-times-api.herokuapp.com/articles')
+  .then(result => {
+    //this is going to be a mess
+    for (topic in result.data.articles) {
+      result.data.articles[topic].forEach(article => {
+        makeCard(article, topic);
+      })
+    }
+  })
+  .catch(error => {
+    const e = {  
+          "authorName": error,
+          "authorPhoto": null,
+          "headline": 'ERROR RECIEVING CARDS',
+        }
+    makeCard(e, 'error')
+  })
