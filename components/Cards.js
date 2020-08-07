@@ -21,12 +21,10 @@
 //
 // Use your function to create a card for each of the articles, and append each card to the DOM.
 
-
-//keep in mind, the structure is {articles: {subjects: [actualArticlesArr]} }
-//that is SUPER annoying.
-function makeCard(article) {
+//supposed to make cards appear/disappear based on topic?
+function makeCard(article, topic) {
   const element = document.createElement('div');
-  element.className = 'card';
+  element.className = `card ${topic}`;
   element.innerHTML = `<div class="headline">${article.headline}</div>
    <div class="author">
      <div class="img-container">
@@ -42,12 +40,14 @@ function makeCard(article) {
    return document.querySelector('.cards-container').appendChild(element);
 }
 
+//keep in mind, the structure is {articles: {topics: [arrOfArticleObjs]} }
+//that is SUPER annoying.
 axios.get('https://lambda-times-api.herokuapp.com/articles')
   .then(result => {
     //this is going to be a mess
     for (topic in result.data.articles) {
       result.data.articles[topic].forEach(article => {
-        makeCard(article);
+        makeCard(article, topic);
       })
     }
   })
