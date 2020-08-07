@@ -51,3 +51,11 @@ axios.get('https://lambda-times-api.herokuapp.com/articles')
       })
     }
   })
+  .catch(error => {
+    const e = {  
+          "authorName": error,
+          "authorPhoto": null,
+          "headline": 'ERROR RECIEVING CARDS',
+        }
+    makeCard(e, 'error')
+  })
