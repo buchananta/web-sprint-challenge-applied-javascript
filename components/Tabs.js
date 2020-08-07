@@ -19,9 +19,13 @@ axios.get('https://lambda-times-api.herokuapp.com/topics')
       const element = document.createElement('div');
       element.className = 'tab';
       element.textContent = topic;
-      element.addEventListener('click', event => {
+      element.addEventListener('click', () => {
+        //probably a better way to do this, but I'm just going to
+        //hide every card, then display the relevant onesjsdf;d 
+         const cards = document.querySelectorAll('.card');
+        cards.forEach(card => card.classList.add('hidden'));
         const articles = document.querySelectorAll(`.${topic}`);
-        articles.forEach(art => console.log(art));
+        articles.forEach(topic => topic.classList.remove('hidden'));
       })
       return container.appendChild(element);
     })}
